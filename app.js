@@ -7,7 +7,8 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
-
+const helmet = require('helmet');
+app.use(helmet());
 //allow cross-origin
 app.use(function(req,res,next){
     res.header("Access-Control-Allow-Origin", "*");
