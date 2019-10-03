@@ -13,9 +13,10 @@ router.post('/Register', (req,res,next) => {
     first,
     last,
     pass,
-    email
+    email,
+    displayname
   } = req.body;
-  if ((!first)||(!last)||(!pass)||(!email)) {
+  if ((!first)||(!last)||(!pass)||(!email)||(!displayname)) {
     res.json({
       msg: 'not working'
     });
@@ -31,11 +32,11 @@ router.post('/Register', (req,res,next) => {
         msg: "userExists"
       })
     }else {
-      const insertUserQuery = `INSERT INTO users(first, last, email, pass, token) VALUES (?,?,?,?,?)`
+      const insertUserQuery = `INSERT INTO users(first, last, email, pass, token, displayname) VALUES (?,?,?,?,?,?)`
       const salt = bcrypt.genSaltSync(10);
       const hash = bcrypt.hashSync(pass, salt);
       const token = randToken.uid(50);
-      db.query(insertUserQuery, [first, last, email, hash, token], (err2)=>{
+      db.query(insertUserQuery, [first, last, email, hash, token, displayname], (err2)=>{
         if(err2){
           throw err2
         }
@@ -43,7 +44,8 @@ router.post('/Register', (req,res,next) => {
           msg: "userAdded",
           token,
           email,
-          first
+          first,
+          displayname
         })
       })
     }
@@ -79,6 +81,7 @@ router.post('/login', (req, res) => {
           msg: "loggedIn",
           first: thisRow.first,
           email: thisRow.email,
+          displayname: thisRow.displayname,
           token
         })
       } else {
