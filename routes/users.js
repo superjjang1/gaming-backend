@@ -53,7 +53,6 @@ router.post('/Register', (req,res,next) => {
 })
 
 router.post('/login', (req, res) => {
-  console.log(req.body)
   const email = req.body.email;
   const pass = req.body.password;
   //first check for this email.
