@@ -17,15 +17,15 @@ router.post('/', (req,res)=>{
         bannerUrl
     } = req.body
     console.log(req.body);
-    // const f = req.file;
-    // const f1 = req.file;
-    // const finalFilePath = f.destination + '/' + Date.now() + f.originalname;
-    // const filePathForDb = finalFilePath.slice(8)
-    // fs.rename(f.path, finalFilePath, (err)=>{
-    //     if (err) throw err;
-    // })
-    const insertProfileQuery = `UPDATE users SET profile = ? WHERE id = ?`
-    let theQuery = db.query(insertProfileQuery, [profile,res.locals.uid],(err)=>{
+    
+    const f = req.file;
+    const finalFilePath = f.destination + '/' + Date.now() + f.originalname;
+    const filePathForDb = finalFilePath.slice(8)
+    fs.rename(f.path, finalFilePath, (err)=>{
+        if (err) throw err;
+    })
+    const insertProfileQuery = `UPDATE users SET profile = ?, imageUrl = ? WHERE id = ?`
+    let theQuery = db.query(insertProfileQuery, [profile, filePathForDb ,res.locals.uid],(err)=>{
         if(err) throw err;
         res.json({
             msg:'updated'
