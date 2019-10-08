@@ -16,11 +16,13 @@ router.post('/new',(req,res)=>{
     } = req.body
     const insertCommunityQuery = `INSERT INTO community (uid, name, type, description) VALUES (?,?,?,?)`;
     const dbValues = [res.locals.uid, name, type, description]
-    db.query(insertCommunityQuery, dbValues,(err)=>{
+    let theQuery = db.query(insertCommunityQuery, dbValues,(err)=>{
         if(err) throw err;
         res.json({
             msg:"communityAdded"
         })
     })
+    console.log(theQuery.sql);
+    console.log('doing things')
 })
 module.exports = router;

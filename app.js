@@ -7,6 +7,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var tournamentRouter = require('./routes/tournament');
 var communityRouter = require('./routes/community');
+var accountRouter = require('./routes/account');
 
 
 var app = express();
@@ -28,7 +29,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/tournaments', tournamentRouter)
-app.use('/community', communityRouter)
+app.use('/tournaments', tournamentRouter);
+app.use('/community', communityRouter);
+app.use('/my-account',accountRouter);
 
 module.exports = app;
