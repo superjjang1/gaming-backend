@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const db = require('../db');
-// const config = require('../config');
+const config = require('../config');
 // var multer = require('multer');
 // var storage = multer.diskStorage({
 //   destination: function (req, file, cb) {
@@ -34,5 +34,22 @@ router.post('*', (req,res,next)=>{
     next();
   })
 })
+
+router.get('/my-account',(req,res)=>{
+  if(!res.locals.loggedIn){
+      res.json({
+          msg:"badToken"
+      })
+      return;
+  }
+  const accountQuery = `SELECT displayname, profile, imageUrl, bannerUrl FROM users WHERE id = ? `
+  theQuery = db.query(accountQuery, [displayname, profile, imageUrl, bannerUrl, res.locals.uid],(err)=>{
+    if(err) throw err;
+    res.json({
+      msg: 'updated'
+    })
+  })
+})
+
 
 module.exports = router;

@@ -81,6 +81,9 @@ router.post('/login', (req, res) => {
           first: thisRow.first,
           email: thisRow.email,
           displayname: thisRow.displayname,
+          profile: thisRow.profile,
+          imageUrl: thisRow.imageUrl,
+          bannerUrl: thisRow.bannerUrl,
           token
         })
       } else {

@@ -3,13 +3,14 @@ var router = express.Router();
 const db = require('../db');
 const fs = require('fs');
 
-router.post('/new', (req,res)=>{
-    // if(!res.locals.loggedIn) {
-    //     res.json({
-    //         msg: "badToken"
-    //     })
-    //     return;
-    // }
+
+router.post('/edit', (req,res)=>{
+    if(!res.locals.loggedIn) {
+        res.json({
+            msg: "badToken"
+        })
+        return;
+    }
     // // console.log(res.locals.loggedIn,"hello???");
     const {
         profile
