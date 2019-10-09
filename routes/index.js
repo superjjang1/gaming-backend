@@ -50,6 +50,14 @@ router.get('/my-account',(req,res)=>{
     })
   })
 })
-
+router.get('/community',(req,res)=>{
+  const communityQuery = `Select * FROM community`
+  theQuuuery = db.query(communityQuery, (err,results)=>{
+    if(err) throw err;
+    res.json({
+      results
+    })
+  })
+})
 
 module.exports = router;
