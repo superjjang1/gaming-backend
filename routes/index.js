@@ -43,10 +43,10 @@ router.get('/my-account',(req,res)=>{
       return;
   }
   const accountQuery = `SELECT displayname, profile, imageUrl, bannerUrl FROM users WHERE id = ? `
-  theQuery = db.query(accountQuery, [displayname, profile, imageUrl, bannerUrl, res.locals.uid],(err)=>{
+  theQuery = db.query(accountQuery, [displayname, profile, imageUrl, bannerUrl, res.locals.uid],(err,results)=>{
     if(err) throw err;
     res.json({
-      msg: 'updated'
+      results
     })
   })
 })

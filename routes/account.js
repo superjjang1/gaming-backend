@@ -27,7 +27,9 @@ router.post('/edit', (req,res)=>{
         return res.json({message:'error - No files were uploaded.'});
      }
      });    
-     return fileName;
+     const dbfileName = `/images//${fileName}`
+     console.log(dbfileName);
+     return dbfileName;
    });
     //bannerimage[1]
     const bannerImage = fileNames[1];
