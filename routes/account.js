@@ -3,36 +3,45 @@ var router = express.Router();
 const db = require('../db');
 const fs = require('fs');
 
-router.post('/', (req,res)=>{
-    if(!res.locals.loggedIn) {
-        res.json({
-            msg: "badToken"
-        })
-        return;
-    }
-    console.log(res.locals.loggedIn,"hello???");
+router.post('/new', (req,res)=>{
+    // if(!res.locals.loggedIn) {
+    //     res.json({
+    //         msg: "badToken"
+    //     })
+    //     return;
+    // }
+    // // console.log(res.locals.loggedIn,"hello???");
     const {
-        profile,
-        imageUrl,
-        bannerUrl
+        profile
     } = req.body
+    console.log(req.files);
     console.log(req.body);
+   const files = req.files;
+   const filesByName = Object.keys(files);
+   const fileNames = filesByName.map(ref => {
+     const file = files[ref];
+     let fileName = `${file.name.split('.')[0]}_${Date.now()}.${file.name.split('.')[1]}`;
+     file.mv(`./public/images/${fileName}`, async function(err) {
+        if (err) {
+        return res.json({message:'error - No files were uploaded.'});
+     }
+     });    
+     return fileName;
+   });
+    //bannerimage[1]
+    const bannerImage = fileNames[1];
+    const profileImage = fileNames[0];
+    console.log(fileNames);
     
-    const f = req.file;
-    const finalFilePath = f.destination + '/' + Date.now() + f.originalname;
-    const filePathForDb = finalFilePath.slice(8)
-    fs.rename(f.path, finalFilePath, (err)=>{
-        if (err) throw err;
-    })
-    const insertProfileQuery = `UPDATE users SET profile = ?, imageUrl = ? WHERE id = ?`
-    let theQuery = db.query(insertProfileQuery, [profile, filePathForDb ,res.locals.uid],(err)=>{
+    const insertProfileQuery = `UPDATE users SET profile = ?, imageUrl = ?, bannerUrl = ? WHERE id = ?`
+    let theQuery = db.query(insertProfileQuery, [profile, profileImage, bannerImage ,res.locals.uid],(err)=>{
         if(err) throw err;
         res.json({
             msg:'updated'
         })
     })
-    console.log(theQuery.sql);
-    console.log('QUERYDUN');
+    // console.log(theQuery.sql);
+    // console.log('QUERYDUN');
     // console.log(finalFilePath);
 })
 module.exports = router;
