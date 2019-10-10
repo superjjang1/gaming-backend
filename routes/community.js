@@ -25,4 +25,5 @@ router.post('/new',(req,res)=>{
     console.log(theQuery.sql);
     console.log('doing things')
 })
+
 module.exports = router;

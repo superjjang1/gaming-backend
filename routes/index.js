@@ -54,9 +54,17 @@ router.get('/community',(req,res)=>{
   const communityQuery = `Select * FROM community`
   theQuuuery = db.query(communityQuery, (err,results)=>{
     if(err) throw err;
-    res.json({
+    res.json(
       results
-    })
+    )
+  })
+})
+router.get('/community/:communityId',(req,res)=>{
+  const communityId = req.params.communityId;
+  const getCommunityQuery = `SELECT * FROM community WHERE id = ?`;
+  db.query(getCommunityQuery,[communityId],(err,result)=>{
+    if(err) throw err;
+    res.json(result[0])
   })
 })
 
