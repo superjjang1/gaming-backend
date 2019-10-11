@@ -51,7 +51,7 @@ router.get('/my-account',(req,res)=>{
   })
 })
 router.get('/community',(req,res)=>{
-  const communityQuery = `SELECT * FROM community, users WHERE users.id = community.uid`
+  const communityQuery = `SELECT community.name, community.type, community.description, community.uid, users.displayname, community.id FROM community, users WHERE users.id = community.uid`
   theQuuuery = db.query(communityQuery, (err,results)=>{
     if(err) throw err;
     res.json(
@@ -61,7 +61,7 @@ router.get('/community',(req,res)=>{
 })
 router.get('/community/:communityId',(req,res)=>{
   const communityId = req.params.communityId;
-  const getCommunityQuery = `SELECT community.name, community.type, community.description, community.uid, community.id,displayname FROM community, users WHERE community.id = ?
+  const getCommunityQuery = `SELECT community.name, community.type, community.description, community.uid, community.id, displayname FROM community, users WHERE community.id = ? AND community.uid = users.id
   `;
   db.query(getCommunityQuery,[communityId],(err,result)=>{
     if(err) throw err;
