@@ -104,4 +104,14 @@ router.post('/community/:communityId',async (req,res, next)=>{
     }
   })
 })
+router.get('/tournaments/:tournamentId',(req,res)=>{
+  const tournamentId = req.params.tournamentId;
+  const getTournamentQuery=`SELECT tournament.name, tournament.game, tournament.description, tournament.participants, tournament.date_added, tournament.date1, tournament.time, tournament.date2, displayname FROM tournament, users WHERE tournament.id = ? AND tournament.uid = users.id`;
+  db.query(getTournamentQuery, [tournamentId],(err, result)=>{
+    if(err) throw err;
+    res.json(result[0])
+  })
+  
+})
+
 module.exports = router;

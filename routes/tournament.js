@@ -29,4 +29,14 @@ router.post('/new',(req,res)=>{
         })
     })
 })
+router.get('/',(req,res)=>{
+    const tournamentQuery = `SELECT * FROM tournament`
+    let theQuery = db.query(tournamentQuery, (err,results)=>{
+        if(err) throw err;
+        res.json(
+            results
+        )
+        console.log(theQuery.sql)
+    })
+})
 module.exports = router;
