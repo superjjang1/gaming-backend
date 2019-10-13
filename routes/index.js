@@ -68,5 +68,40 @@ router.get('/community/:communityId',(req,res)=>{
     res.json(result[0])
   })
 })
-
+router.post('/community/:communityId',async (req,res, next)=>{
+  if(!res.locals.loggedIn){
+    res.json({
+      msg:"badToken"
+    })
+    return;
+  }
+  const communityId = req.body.community.id
+  console.log(req.body.community.id)
+  console.log(res.locals.uid)
+  const checkUserQuery = `SELECT * FROM communityUsers WHERE UID = ?`
+  let thQuery = await db.query(checkUserQuery,[res.locals.uid],(err,results)=>{
+    if(err){
+      throw err
+    };
+    console.log(thQuery.sql);
+    console.log(results);
+    if (results.length > 0){
+      res.json({
+        msg:"already in"
+      })
+    }else{
+      const joinCommunity = `INSERT INTO communityUsers(CID, UID) VALUES (?,?)`
+      const dbValues = [communityId, res.locals.uid]
+      console.log(dbValues);
+      
+      let newQuery = db.query(joinCommunity,dbValues,(err2)=>{
+        if(err2) throw err2;
+        res.json({
+          msg: "you've joined"
+        })
+      })
+      console.log(newQuery.sql);
+    }
+  })
+})
 module.exports = router;
