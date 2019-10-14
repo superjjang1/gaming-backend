@@ -45,6 +45,7 @@ app.use('/', indexRouter);
 // })
 app.use('/users', usersRouter);
 app.use('/tournaments', tournamentRouter);
+app.use('/tournament', tournamentRouter);
 app.use('/community', communityRouter);
 app.use('/my-account',accountRouter);
 
