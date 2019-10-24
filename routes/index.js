@@ -60,6 +60,12 @@ router.get('/community',(req,res)=>{
   })
 })
 router.get('/my-account',(req, res)=>{
+  if(!res.locals.loggedIn){
+    res.json({
+        msg:"badToken"
+    })
+    return;
+}
   const urQuery = `SELECT community.name, community.type, community.description, community.uid, users.displayname, community.id FROM community, users WHERE users.id = community.uid`
   theUrQuery = db.query(urQuery, (err, results) => {
     if(err) throw err;
