@@ -67,6 +67,7 @@ router.get('/my-account',(req, res)=>{
       results
     )
   })
+  console.log('hello?')
 })
 router.get('/community/:communityId',(req,res)=>{
   const communityId = req.params.communityId;
