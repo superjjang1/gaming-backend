@@ -2,23 +2,7 @@ var express = require('express');
 var router = express.Router();
 const db = require('../db');
 const config = require('../config');
-// var multer = require('multer');
-// var storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null, 'public')
-//   },
-//   filename: function (req, file, cb){
-//     cb(null, Date.now() + '-' +file.originalname)
-//   }
-// })
-// var upload = multer({ storage: storage
-// }).single('file');
 
-
-/* GET home page. */
-// router.get('/', function(req, res, next) {
-//   res.render('index', { title: 'Express' });
-// });
 
 router.post('*', (req,res,next)=>{
   const token = req.body.token
@@ -35,8 +19,8 @@ router.post('*', (req,res,next)=>{
   })
 })
 
-router.get('/my-account',(req,res)=>{
-  if(!res.locals.loggedIn){
+router.post('/my-account',(req,res)=>{
+  if(!res.locals.loggedIn == true){
       res.json({
           msg:"badToken"
       })
@@ -59,22 +43,7 @@ router.get('/community',(req,res)=>{
     )
   })
 })
-router.get('/my-account',(req, res)=>{
-  if(!res.locals.loggedIn){
-    res.json({
-        msg:"badToken"
-    })
-    return;
-}
-  const urQuery = `SELECT community.name, community.type, community.description, community.uid, users.displayname, community.id FROM community, users WHERE users.id = community.uid`
-  theUrQuery = db.query(urQuery, (err, results) => {
-    if(err) throw err;
-    res.json(
-      results
-    )
-  })
-  console.log('hello?')
-})
+
 router.get('/community/:communityId',(req,res)=>{
   const communityId = req.params.communityId;
   const getCommunityQuery = `SELECT community.name, community.type, community.description, community.uid, community.id, displayname FROM community, users WHERE community.id = ? AND community.uid = users.id

@@ -47,4 +47,21 @@ router.post('/edit', (req,res)=>{
     // console.log('QUERYDUN');
     // console.log(finalFilePath);
 })
+router.get('/my-account',(req, res)=>{
+    if(!res.locals.loggedIn){
+      res.json({
+          msg:"you're not logged?"
+      })
+      return;
+  }
+    const urQuery = `SELECT community.name, community.type, community.description, community.uid, users.displayname, community.id FROM community, users WHERE users.id = community.uid`
+    theUrQuery = db.query(urQuery, (err, results) => {
+      if(err) throw err;
+      res.json(
+        results
+      )
+      console.log(theUrQuery.sql)
+    })
+    console.log('hello?')
+  })
 module.exports = router;
