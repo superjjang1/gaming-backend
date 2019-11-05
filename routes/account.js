@@ -47,13 +47,15 @@ router.post('/edit', (req,res)=>{
     // console.log('QUERYDUN');
     // console.log(finalFilePath);
 })
-router.get('/my-account',(req, res)=>{
+router.get('/',(req, res)=>{
+    console.log("is this happening?")
     if(!res.locals.loggedIn){
       res.json({
           msg:"you're not logged?"
       })
       return;
   }
+  console.log("hello?")
     const urQuery = `SELECT community.name, community.type, community.description, community.uid, users.displayname, community.id FROM community, users WHERE users.id = community.uid`
     theUrQuery = db.query(urQuery, (err, results) => {
       if(err) throw err;
