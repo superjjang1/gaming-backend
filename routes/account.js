@@ -51,7 +51,7 @@ router.get('/',(req, res)=>{
     console.log("is this happening?")
   
   console.log("hello? hello")
-const urQuery = `SELECT community.name, community.type, community.description, community.uid, users.displayname, community.id FROM community, users WHERE users.id = community.uid`
+const urQuery = `SELECT community.name, community.type, community.description, community.uid, users.displayname, community.id FROM community, users WHERE users.id = community.uid AND users.displayname = users.displayname`
 theUrQuery = db.query(urQuery, (err, results) => {
       if(err) throw err;
       res.json(
